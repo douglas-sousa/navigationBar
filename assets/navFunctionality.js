@@ -1,21 +1,23 @@
 ﻿let menu = document.getElementsByClassName("btn-group");
 let justText = document.getElementsByClassName("just-text");
-let dropdown = document.getElementsByClassName("dropdown-menu");
+//let dropdown = document.getElementsByClassName("dropdown-menu");
 
-[].map.call(menu, (elem, index)=>{
+[].forEach.call(menu, (elem, index)=>{
+    //Cria um evento de clique para cada menu com uma função que busca dentro dele por "dropdown-menu"
     elem.addEventListener("click", function(){
-        //Caso o menu possua um dropdown, adicionar a cada âncora um evento para chamar a função triangleChanger
-        if(elem.contains(dropdown[index])){
-            let anchorChildren = dropdown[index].children;
-            [].map.call(anchorChildren, anchor=>{
-                anchor.addEventListener("click", function(){
-                    triangleChanger(justText, index);
+        //Se achar, cria-se um evento de clique para cada âncora dele onde a função triangleChanger é chamado
+        if(elem.getElementsByClassName("dropdown-menu").length){
+            let eDropdown = elem.getElementsByClassName("dropdown-menu")[0];
+                [].forEach.call(eDropdown.children, $anchor => {
+                    $anchor.addEventListener("click", function(){
+                        triangleChanger(justText, index);
+                    })
                 })
-            })
-        //Caso esse menu seja solitário, invocar a função nele mesmo.    
+        //Caso não ache, esse elemento só possui um botão. Pode chamar a função direto.
         }else{
             triangleChanger(justText, index);
         }
+
     })
 });
 
@@ -55,7 +57,7 @@ function triangleChanger(elem, index){
             margin-left:${leftPosition+6.5}px;
         }`;
     //Retornando todos os menus para a cor original cinza    
-    [].map.call(elem, each=> each.style.color="#ACACAC");
+    [].forEach.call(elem, $elem=> $elem.style.color="#ACACAC");
     //Modificando só o menu selecionado para verde
     elem[index].style.color = "#006280";
 
